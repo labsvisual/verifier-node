@@ -1,25 +1,78 @@
-# Official Library for verifier.meetchopra.com
+# `Email Verifier` - Official Node.js Client
+This package is the **only official** package for the [Verifier](https://verifier.meetchopra.com) web-service by [Meet Chopra](https://twitter.com/meet__chopra).
 
-# Installation
+## Installation
+Installing the library is actually pretty simple. With just: `npm i -S verifier-node` you will be on your way to build something wickedly awesome!
 
-```npm i verifier-node```
+## Rationale
+`verifier-node` is a tiny library which wraps around the Verifier API for validating spam emails based on a variety of factors such as invalid MX records, invalid or inaccessible domain names, etc. [Click here](https://verifier.meetchopra.com) to know more about the project.
 
-or
+## Show me code!
 
-```git clone https://github.com/email-verifier/verifier-node.git```
+Using the library is pretty simple:
+```javascript
+const Verifier = require('verifier-node');
+const verifierInstance = new Verifier('YOUR_API_KEY');
 
-# Usage
-Verifier-node is email library for validating non-exsistent, invalid domain, disposable emails. [Know more](https://verifier.meetchopra.com)
+async function getResults() {
 
+    try {
 
-Below is the example of how to use the library
+        const validationResult = await verifierInstance.verify('EMAIL_HERE');
+
+        if (!validationResult.isValid) {
+
+            console.log('The email is not valid!');
+
+            console.log(
+                'Error code: %d; message: %s, description: %s',
+                validationResult.validationError.code,
+                validationResult.validationError.message,
+                validationResult.validationError.description
+            );
+
+        } else {
+            console.log('Woohoo! The email is valid!');
+        }
+
+    } catch (error) {
+        console.error('Oops! %O', error);
+    }
+
+}
+
+getResults();
+```
+
+Since the function returns a `Promise` you can also use `.then()` and `.catch()` chains if you fancy.
+
+### Validation Singleton
+You can also just import the `verifyEmail` function from the `verifier-node` package and use it. It is the core function which powers this library and has the following signature:
+
+`verifyEmail(API_KEY: string, EMAIL: string): Promise<validationResult: object | error>`
+
+Example:
 
 ```javascript
-const emailVerifier = require("email-verifier-node");
+const { verifyEmail } = require('verifier-node');
 
-emailVerifier.verify("email@example.com", "ACCESS_TOKEN")
-  .then(response => {
-    console.log(response.valid()); // Boolean
-    console.log(response.field("status")); // Access any field in response
-  });
+// ---
+// ---
+// your code here
+// ---
 ```
+
+This might be useful when you want to use the library one-off. Or if you want to be lazy. Up to you.
+
+## API Documentation
+The official API documentation can be found [here](https://verifier.meetchopra.com/docs#/); be sure to check it out!
+
+## Contributing
+Feel free to raise a PR with whatever additions you have; any and every form of _constructive_ criticism is welcome!
+
+## License
+Copyright 2019 Meet Chopra
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.

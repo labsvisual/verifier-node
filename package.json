@@ -1,10 +1,17 @@
 {
   "name": "verifier-node",
-  "version": "1.0.2",
-  "description": "Official Library for verifier.meetchopra.com",
-  "main": "dist/index.js",
+  "version": "2.0.0",
+  "description": "The official Node.js client for verifier.meetchopra.com",
+  "main": "index.js",
+  "files": [
+    "./index.js",
+    "lib"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape __tests__/**/*.specs.js | tap-spec"
+  },
+  "engines": {
+    "node": ">=6.17.0"
   },
   "repository": {
     "type": "git",
@@ -13,12 +20,19 @@
   "keywords": [
     "email",
     "verifier",
-    "email"
+    "verify",
+    "junk",
+    "spam"
   ],
   "author": "Meet Chopra",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/email-verifier/verifier-node/issues"
   },
-  "homepage": "https://github.com/email-verifier/verifier-node#readme"
+  "homepage": "https://github.com/email-verifier/verifier-node#readme",
+  "devDependencies": {
+    "nock": "^10.0.6",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.10.1"
+  }
 }
